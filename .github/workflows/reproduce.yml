@@ -36,7 +36,7 @@ jobs:
           apt-get install -y jq
       - name: reproduce error
         run: |
-          docker run -d --rm --name tmp -p 8080:8080 hashicorp/http-echo -listen=:8080 -text="hello world"
+          docker run -d --rm --name tmp -p 8080:8080 hashicorp/http-echo -listen=0.0.0.0:8080 -text="hello world"
           docker container inspect tmp | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'
           set -x
           # localhost
