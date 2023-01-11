@@ -9,7 +9,7 @@ on:
 
 jobs:
   reproduce_error:
-    runs-on: ubuntu-latest
+    runs-on: 'ubuntu-22.04'
     container:
       image: 'ubuntu:22.04'
     steps:
