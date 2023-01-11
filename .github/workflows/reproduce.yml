@@ -1,0 +1,30 @@
+name: Reproduce Error
+
+on:
+  push:
+    branches: 
+      - "main"
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
+    steps:
+      - run: apt-get install docker yq
+      - name: test
+        run: |
+          docker run -d --rm --name tmp -p 8080:8080 hashicorp/http-echo -listen=:8080 -text="hello world"
+          docker container inspect tmp | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'
+          set -x
+          # localhost
+          curl localhost:8080
+          # docker host
+          curl tmp:8080 || true
+          # docker ip
+          curl $(docker container inspect tmp | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'):8080 || true
+          docker ps
+          docker stop tmp
+          set +x
