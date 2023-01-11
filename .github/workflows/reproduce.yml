@@ -12,6 +12,8 @@ jobs:
     runs-on: 'ubuntu-22.04'
     container:
       image: 'ubuntu:22.04'
+      ports:
+        - 8080
     steps:
       - name: install dependencies
         run: |
