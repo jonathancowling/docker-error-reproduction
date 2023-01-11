@@ -8,12 +8,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  reproduce_error:
     runs-on: ubuntu-latest
     container:
       image: ubuntu:latest
     steps:
-      - run: apt-get install docker yq
+      - run: apt-get install docker jq
       - name: test
         run: |
           docker run -d --rm --name tmp -p 8080:8080 hashicorp/http-echo -listen=:8080 -text="hello world"
