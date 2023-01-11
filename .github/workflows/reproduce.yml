@@ -13,6 +13,7 @@ jobs:
     container:
       image: 'ubuntu:22.04'
     steps:
+      - name: install dependencies
       - run: |
           # docker dependencies 
           apt-get update -y
@@ -29,7 +30,7 @@ jobs:
           
           apt-get update -y
           apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin jq
-      - name: test
+      - name: reproduce error
         run: |
           docker run -d --rm --name tmp -p 8080:8080 hashicorp/http-echo -listen=:8080 -text="hello world"
           docker container inspect tmp | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'
