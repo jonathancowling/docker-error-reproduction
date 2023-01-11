@@ -11,7 +11,7 @@ jobs:
   reproduce_error:
     runs-on: ubuntu-latest
     container:
-      image: ubuntu
+      image: 'ubuntu:22.04'
     steps:
       - run: apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin jq
       - name: test
