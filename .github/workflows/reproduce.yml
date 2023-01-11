@@ -31,7 +31,7 @@ jobs:
           apt-get update -y
           apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
           
-          apt-get install jq
+          apt-get install -y jq
       - name: reproduce error
         run: |
           docker run -d --rm --name tmp -p 8080:8080 hashicorp/http-echo -listen=:8080 -text="hello world"
