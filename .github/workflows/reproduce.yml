@@ -15,8 +15,9 @@ jobs:
     steps:
       - name: install dependencies
         run: |
-          # docker dependencies 
           apt-get update -y
+          
+          # install docker following https://docs.docker.com/engine/install/ubuntu/
           apt-get install -y \
             ca-certificates \
             curl \
@@ -27,16 +28,17 @@ jobs:
           echo \
             "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
             $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-          
           apt-get update -y
-          apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin jq
+          apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+          
+          apt-get install jq
       - name: reproduce error
         run: |
           docker run -d --rm --name tmp -p 8080:8080 hashicorp/http-echo -listen=:8080 -text="hello world"
           docker container inspect tmp | jq -r '.[0].NetworkSettings.Networks.bridge.IPAddress'
           set -x
           # localhost
-          curl localhost:8080
+          curl localhost:8080 || true
           # docker host
           curl tmp:8080 || true
           # docker ip
