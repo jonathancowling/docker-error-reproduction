@@ -16,7 +16,7 @@ jobs:
       - run: |
           # docker dependencies 
           apt-get update -y
-          apt-get install \
+          apt-get install -y \
             ca-certificates \
             curl \
             gnupg \
